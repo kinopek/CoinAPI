@@ -44,7 +44,7 @@ namespace CoinAPI.Controllers
 
         // GET: Currencies/Details/5
         [HttpGet("Currencies/GetByName/{name}")]
-        public async Task<ActionResult<Currency>> Exists(string name)
+        public async Task<ActionResult<Currency>> GetByName(string name)
         {
             if (name == null)
             {
@@ -67,6 +67,7 @@ namespace CoinAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 _context.Add(currency);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Create), currency);
@@ -121,6 +122,13 @@ namespace CoinAPI.Controllers
         private bool CurrencyExists(string id)
         {
             return _context.Currencies.Any(e => e.CurrencyID == id);
+        }
+
+        [HttpGet("Currencies/Exists/{name}")]
+
+        public bool NameExists(string name)
+        {
+            return _context.Currencies.Any(e => e.Name == name);
         }
     }
 }
